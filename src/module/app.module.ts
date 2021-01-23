@@ -14,7 +14,6 @@ const ENV = process.env.NODE_ENV || 'development';
       isGlobal: true,
       envFilePath: !ENV ? '.env' : `config/env/.${ENV}.env`,
     }),
-    AuthModule,
     DatabaseModule,
     VehicleModule
   ],

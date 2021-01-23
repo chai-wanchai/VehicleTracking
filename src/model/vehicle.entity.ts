@@ -4,8 +4,8 @@ import { VehicleHistoryEntity } from './vehicleHistory.entity';
 
 @Entity('vehicle')
 export class VehicleEntity {
-	@PrimaryGeneratedColumn()
-	id?: number;
+	@PrimaryGeneratedColumn('uuid')
+	id?: string;
 
 	@CreateDateColumn()
 	created_date?: Date;
@@ -18,4 +18,6 @@ export class VehicleEntity {
 
 	@OneToMany(() => VehicleHistoryEntity, his => his.vehicle)
 	history?: VehicleHistoryEntity[]
+
+
 }

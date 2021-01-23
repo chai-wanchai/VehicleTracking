@@ -3,6 +3,7 @@ import { VehicleHistoryEntity } from "src/model/vehicleHistory.entity";
 import { UserEntity } from "../model/user.entity";
 
 export const entities = [
+	UserEntity,
 	VehicleHistoryEntity,
 	VehicleEntity
 ]

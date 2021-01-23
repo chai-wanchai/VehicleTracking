@@ -10,7 +10,7 @@ class SearchCriteriaVehicle {
 
 export class SearchVehicleDto {
 	@ApiProperty()
-	vehicle_id: number;
+	vehicle_id: string;
 	@ApiProperty({ type: () => PagingDto })
 	paging: PagingDto
 	@ApiProperty({ type: () => SearchCriteriaVehicle })
@@ -19,7 +19,7 @@ export class SearchVehicleDto {
 
 export class TrackingVehicleDto {
 	@ApiProperty()
-	vehicle_id: number;
+	vehicle_id: string;
 	@ApiProperty()
 	lat: string
 	@ApiProperty()
@@ -28,4 +28,8 @@ export class TrackingVehicleDto {
 export class VehicleDto {
 	@ApiProperty()
 	vehicle_name: string
+}
+export class VehicleAccessDto extends VehicleDto {
+	@ApiProperty()
+	vehicle_id: string;
 }
