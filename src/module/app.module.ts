@@ -5,6 +5,7 @@ import configuration from '../../config/configuration';
 import { AuthModule } from './auth.module';
 import { DatabaseModule } from './database.module';
 import { Connection } from 'typeorm';
+import { VehicleModule } from './vehicle.module';
 const ENV = process.env.NODE_ENV || 'development';
 @Module({
   imports: [
@@ -14,7 +15,8 @@ const ENV = process.env.NODE_ENV || 'development';
       envFilePath: !ENV ? '.env' : `config/env/.${ENV}.env`,
     }),
     AuthModule,
-    DatabaseModule
+    DatabaseModule,
+    VehicleModule
   ],
   providers: [],
   exports: []

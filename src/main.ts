@@ -7,11 +7,13 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as morgan from 'morgan';
 import { fastifySwagger } from 'fastify-swagger'
 import { AllExceptionsFilter } from './shared/exceptionFilter';
+import { ResponseInterceptor } from './shared/reponseInterceptor';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger: console });
   const configService = app.get(ConfigService);
   const PORT = configService.get('port')
   app.useGlobalFilters(new AllExceptionsFilter())
+  //app.useGlobalInterceptors(new ResponseInterceptor())
   app.register(helmet.fastifyHelmet, {
     contentSecurityPolicy: {
       directives: {
@@ -23,15 +25,6 @@ async function bootstrap() {
     },
   });
   app.use(morgan('tiny'));
-  app.register(fastifySwagger, {
-    routePrefix: '/scg-id',
-    mode: 'static',
-    specification: {
-      path: './openAPIDoc/apiSCGID.yaml',
-      baseDir: '/',
-    },
-    exposeRoute: true
-  })
   await app.listen(PORT, '0.0.0.0');
   const options = new DocumentBuilder()
     .setTitle('API Specification')
