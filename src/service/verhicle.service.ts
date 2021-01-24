@@ -26,12 +26,13 @@ export class VehicleService {
 		return result;
 	}
 	async findHistory(vehicle_id: string, start_date: any, end_date: any): Promise<VehicleHistoryEntity[]> {
-		const result = await this.vehicleHistoryRepo.find({
-			where: {
-				vehicle: { id: vehicle_id },
-				created_date: Between(start_date, end_date)
-			}
-		})
+		const result = await this.vehicleHistoryRepo.createQueryBuilder('history')
+			.where("history.id = COALESCE(:vehicle_id,history.id)")
+			.andWhere('history.created_date >= :start_date')
+			.andWhere('history.created_date <= :end_date')
+			.setParameters({ start_date, end_date, vehicle_id })
+			.leftJoinAndSelect('history.vehicle', 'vehicle')
+			.getMany()
 		return result;
 	}
 	async createTrackingVehicle(data: TrackingVehicleDto) {
@@ -45,7 +46,7 @@ export class VehicleService {
 			insert.long = data.long
 			const result = await this.vehicleHistoryRepo.insert(insert)
 			await queryRunner.commitTransaction();
-			return result.raw;
+			return result.generatedMaps;
 		} catch (error) {
 			await queryRunner.rollbackTransaction();
 			throw error

@@ -19,11 +19,10 @@ export class SearchVehicleDto {
 
 export class TrackingVehicleDto {
 	@ApiProperty()
-	vehicle_id: string;
-	@ApiProperty()
 	lat: string
 	@ApiProperty()
 	long: string
+	vehicle_id: string
 }
 export class VehicleDto {
 	@ApiProperty()

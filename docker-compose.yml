@@ -1,22 +1,9 @@
 version: '3'
 
 services:
-  postgres-database:
-    image: postgres:10.15-alpine
-    container_name:  postgres-database-local
-    volumes:
-      - /Docker/database/postgres:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-    restart: always
-    environment:
-      PGDATA: /var/lib/postgresql/data/pgdata 
-      POSTGRES_DB: nest
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: P@ssw0rd
   mysql:
     image: "mysql:5.7.24"
-    container_name: "typeorm-mysql"
+    container_name: "vehicle-mysql"
     ports:
       - "3306:3306"
     volumes:
@@ -27,7 +14,7 @@ services:
       MYSQL_PASSWORD: P@ssw0rd
       MYSQL_DATABASE: nest
   api-nest:
-    container_name: api-nest
+    container_name: vehicle-api
     build:  
       context: .
       dockerfile: Dockerfile.local

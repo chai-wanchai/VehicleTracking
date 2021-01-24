@@ -45,7 +45,7 @@ export class VehicleController {
 	@ApiBearerAuth()
 	@UseGuards(JWTAuthGuard)
 	async createVehiclesTricking(@Body() data: TrackingVehicleDto,@TokenPayload() payload:any) {
-		console.log(payload)
+		data.vehicle_id = payload.vehicle_id
 		const result = await this.vehicleService.createTrackingVehicle(data)
 		return result
 	}

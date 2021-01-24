@@ -10,7 +10,7 @@ import { entities } from 'src/constant/entities';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const dbConfig = configService.get('database')
-        const syncDB = !configService.get('isProduction')
+        const log = configService.get('isProduction')
         const option: TypeOrmModuleOptions = {
           name: 'default',
           type: dbConfig.type,
@@ -19,8 +19,8 @@ import { entities } from 'src/constant/entities';
           username: dbConfig.username,
           password: dbConfig.password,
           database: dbConfig.database_name,
-          synchronize: syncDB,
-          logging: syncDB,
+          synchronize: false,
+          logging: log ? ['error', 'warn'] : 'all',
           entities: entities
         }
         return option

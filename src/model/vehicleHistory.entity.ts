@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { VehicleEntity } from './vehicle.entity';
 
 @Entity('vehicle_history')
@@ -15,6 +15,7 @@ export class VehicleHistoryEntity {
 	long: string
 
 	@ManyToOne(() => VehicleEntity, ve => ve.history)
+	@JoinColumn({ name: "vehicle_id" })
 	vehicle: VehicleEntity
 
 

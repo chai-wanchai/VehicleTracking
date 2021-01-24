@@ -5,15 +5,13 @@ import { FastifyAdapter, NestFastifyApplication, } from '@nestjs/platform-fastif
 import * as helmet from 'fastify-helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as morgan from 'morgan';
-import { fastifySwagger } from 'fastify-swagger'
 import { AllExceptionsFilter } from './shared/exceptionFilter';
-import { ResponseInterceptor } from './shared/reponseInterceptor';
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { logger: console });
   const configService = app.get(ConfigService);
   const PORT = configService.get('port')
   app.useGlobalFilters(new AllExceptionsFilter())
-  //app.useGlobalInterceptors(new ResponseInterceptor())
+  app.setGlobalPrefix('/api')
   app.register(helmet.fastifyHelmet, {
     contentSecurityPolicy: {
       directives: {
