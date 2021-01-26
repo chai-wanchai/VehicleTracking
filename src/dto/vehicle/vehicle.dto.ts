@@ -10,7 +10,7 @@ class SearchCriteriaVehicle {
 
 export class SearchVehicleDto {
 	@ApiProperty()
-	vehicle_id: string;
+	vehicle_name: string;
 	@ApiProperty({ type: () => PagingDto })
 	paging: PagingDto
 	@ApiProperty({ type: () => SearchCriteriaVehicle })

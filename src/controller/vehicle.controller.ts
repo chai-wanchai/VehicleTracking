@@ -1,23 +1,25 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Request, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Request, Post, UseGuards, HttpCode } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { SearchVehicleDto, TrackingVehicleDto, VehicleAccessDto, VehicleDto } from 'src/dto/vehicle/vehicle.dto';
 import { VehicleEntity } from 'src/model/vehicle.entity';
 import { VehicleHistoryEntity } from 'src/model/vehicleHistory.entity';
-import { AuthService } from 'src/service/auth.service';
 import { VehicleService } from 'src/service/verhicle.service';
-import { JwtStrategy } from 'src/shared/auth.strategy';
 import * as jwt from 'jsonwebtoken';
 import { TokenPayload } from 'src/decorator/user.decorator';
 import { JWTAuthGuard } from 'src/shared/auth.guard';
+import { PagingDto } from 'src/dto/commont.dto';
 @Controller('/vehicle')
 export class VehicleController {
 	constructor(private readonly vehicleService: VehicleService, private readonly configService: ConfigService) { }
 
-	@Get('/list')
-	async getVehiclesList(): Promise<VehicleEntity[]> {
-		const result = await this.vehicleService.getVehicleAll()
-		return result
+	@Post('/list')
+	async getVehiclesList(@Body() body: PagingDto): Promise<any> {
+		const result = await this.vehicleService.getVehicleAll(body)
+		return {
+			data: result[0],
+			total: result[1]
+		};
 	}
 	@Post('/access')
 	async getAccessVehicle(@Body() data: VehicleAccessDto) {
@@ -36,15 +38,19 @@ export class VehicleController {
 		return result
 	}
 	@Post('/history')
-	async getSearchVehicles(@Body() searchCriteria: SearchVehicleDto): Promise<VehicleHistoryEntity[]> {
-		const { criteria, vehicle_id, paging } = searchCriteria
-		const result = await this.vehicleService.findHistory(vehicle_id, criteria.start_date, criteria.end_date)
-		return result
+	@HttpCode(200)
+	async getSearchVehicles(@Body() searchCriteria: SearchVehicleDto): Promise<any> {
+		const { criteria, vehicle_name, paging } = searchCriteria
+		const result = await this.vehicleService.findHistory(vehicle_name, criteria.start_date, criteria.end_date, paging)
+		return {
+			data: result[0],
+			total: result[1]
+		};
 	}
 	@Post('/tracking')
 	@ApiBearerAuth()
 	@UseGuards(JWTAuthGuard)
-	async createVehiclesTricking(@Body() data: TrackingVehicleDto,@TokenPayload() payload:any) {
+	async createVehiclesTricking(@Body() data: TrackingVehicleDto, @TokenPayload() payload: any) {
 		data.vehicle_id = payload.vehicle_id
 		const result = await this.vehicleService.createTrackingVehicle(data)
 		return result

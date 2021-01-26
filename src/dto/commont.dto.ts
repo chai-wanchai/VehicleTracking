@@ -1,8 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger"
 
 export class PagingDto {
-	@ApiProperty()
-	limit: number
-	@ApiProperty()
-	offset: number
+	@ApiProperty({ example: 1 })
+	page: number
+	@ApiProperty({ example: 10 })
+	itemPerPage: number
+
 }

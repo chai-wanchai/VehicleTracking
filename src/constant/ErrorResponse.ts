@@ -17,8 +17,4 @@ export const ERROR_RESPONSE = {
 		message: `Invalid Token`,
 		code: `INVALID_TOKEN`
 	},
-	
-
-
-
 }

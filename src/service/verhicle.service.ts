@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { UserRegisterDto } from '../dto/auth/auth.dto';
 import { Repository, Connection, Between } from 'typeorm';
 import { VehicleEntity } from '../model/vehicle.entity';
 import { VehicleHistoryEntity } from '../model/vehicleHistory.entity';
 import { TrackingVehicleDto, VehicleDto } from 'src/dto/vehicle/vehicle.dto';
+import { pagingProcess } from 'src/shared/tableFrontend';
+import { PagingDto } from 'src/dto/commont.dto';
 
 @Injectable()
 export class VehicleService {
@@ -21,18 +22,22 @@ export class VehicleService {
 		const result = await this.vehicleRepo.insert(data)
 		return result.raw;
 	}
-	async getVehicleAll(): Promise<VehicleEntity[]> {
-		const result = await this.vehicleRepo.find()
-		return result;
+	async getVehicleAll(page: PagingDto): Promise<[VehicleEntity[], number]> {
+		const pagingDB = pagingProcess(page)
+		const result = await this.vehicleRepo.createQueryBuilder().limit(pagingDB.limit).offset(pagingDB.offset).getManyAndCount()
+		return result
 	}
-	async findHistory(vehicle_id: string, start_date: any, end_date: any): Promise<VehicleHistoryEntity[]> {
+	async findHistory(vehicle_name: string, start_date: any, end_date: any, page: PagingDto): Promise<[VehicleHistoryEntity[], number]> {
+		const pagingDB = pagingProcess(page)
 		const result = await this.vehicleHistoryRepo.createQueryBuilder('history')
-			.where("history.id = COALESCE(:vehicle_id,history.id)")
+			.where("vehicle.vehicle_name = COALESCE(:vehicle_name,vehicle.vehicle_name)")
 			.andWhere('history.created_date >= :start_date')
 			.andWhere('history.created_date <= :end_date')
-			.setParameters({ start_date, end_date, vehicle_id })
+			.setParameters({ start_date, end_date, vehicle_name })
 			.leftJoinAndSelect('history.vehicle', 'vehicle')
-			.getMany()
+			.limit(pagingDB.limit)
+			.offset(pagingDB.offset)
+			.getManyAndCount()
 		return result;
 	}
 	async createTrackingVehicle(data: TrackingVehicleDto) {

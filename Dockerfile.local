@@ -17,4 +17,5 @@ ENV NODE_ENV=development
 COPY . /app
 RUN ls -l
 RUN npm install
-CMD ["npm","run","start:dev"]
+RUN npm run db:sync
+CMD ["npm","run","dev"]
