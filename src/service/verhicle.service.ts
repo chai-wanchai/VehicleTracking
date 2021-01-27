@@ -20,7 +20,7 @@ export class VehicleService {
 	}
 	async createVehicle(data: VehicleDto) {
 		const result = await this.vehicleRepo.insert(data)
-		return result.raw;
+		return result.generatedMaps;
 	}
 	async getVehicleAll(page: PagingDto): Promise<[VehicleEntity[], number]> {
 		const pagingDB = pagingProcess(page)
@@ -41,23 +41,11 @@ export class VehicleService {
 		return result;
 	}
 	async createTrackingVehicle(data: TrackingVehicleDto) {
-		const queryRunner = this.connection.createQueryRunner()
-		await queryRunner.connect();
-		await queryRunner.startTransaction();
-		try {
-			const insert = new VehicleHistoryEntity()
-			insert.vehicle = { id: data.vehicle_id }
-			insert.lat = data.lat
-			insert.long = data.long
-			const result = await this.vehicleHistoryRepo.insert(insert)
-			await queryRunner.commitTransaction();
-			return result.generatedMaps;
-		} catch (error) {
-			await queryRunner.rollbackTransaction();
-			throw error
-		} finally {
-			await queryRunner.release();
-		}
-
+		const insert = new VehicleHistoryEntity()
+		insert.vehicle = { id: data.vehicle_id }
+		insert.lat = data.lat
+		insert.long = data.long
+		const result = await this.vehicleHistoryRepo.insert(insert)
+		return result.generatedMaps;
 	}
 }

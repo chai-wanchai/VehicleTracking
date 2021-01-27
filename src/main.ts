@@ -12,7 +12,6 @@ async function bootstrap() {
   const PORT = configService.get('port')
   app.useGlobalFilters(new AllExceptionsFilter())
   app.enableCors()
-  app.setGlobalPrefix('/api')
   app.register(helmet.fastifyHelmet, {
     contentSecurityPolicy: {
       directives: {

@@ -19,9 +19,16 @@ import { entities } from 'src/constant/entities';
           username: dbConfig.username,
           password: dbConfig.password,
           database: dbConfig.database_name,
-          synchronize: false,
+          synchronize: true,
           logging: log ? ['error', 'warn'] : 'all',
-          entities: entities
+          entities: entities,
+          retryAttempts: 20,
+          retryDelay: 1000,
+          multithreading: true,
+          pool: {
+            max: 20,
+            min: 2
+          }
         }
         return option
       }

@@ -6,9 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { DataGrid } from '@material-ui/data-grid';
 import Pagination from '@material-ui/lab/Pagination';
-import styled from 'styled-components';
 export interface IDataRow {
 	className?: string
 	[key: string]: any

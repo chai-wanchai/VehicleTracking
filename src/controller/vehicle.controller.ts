@@ -9,7 +9,7 @@ import * as jwt from 'jsonwebtoken';
 import { TokenPayload } from 'src/decorator/user.decorator';
 import { JWTAuthGuard } from 'src/shared/auth.guard';
 import { PagingDto } from 'src/dto/commont.dto';
-@Controller('/vehicle')
+@Controller('/api/vehicle')
 export class VehicleController {
 	constructor(private readonly vehicleService: VehicleService, private readonly configService: ConfigService) { }
 
