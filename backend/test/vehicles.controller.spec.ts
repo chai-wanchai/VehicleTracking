@@ -46,7 +46,7 @@ describe('VehicleController Class', () => {
       }
       res = await vehicleController.getVehiclesList(data)
     })
-    it('should be array type', () => {
+    it('should be array type for properties [data]', () => {
       expect(Array.isArray(res.data)).toBe(true);
     })
     it('should not over 10 items', () => {
@@ -67,6 +67,25 @@ describe('VehicleController Class', () => {
         expect(resData).toHaveProperty("updated_date");
         expect(resData).toHaveProperty("vehicle_name");
       }
+    });
+  });
+  describe('[createVehiclesTricking] method', () => {
+    let listData = null
+    let res = null
+    beforeAll(async () => {
+      listData = await vehicleController.getVehiclesList({ "page": 1, "itemPerPage": 10 })
+      const data = {
+        "lat": "10.6",
+        "long": "12.5"
+      }
+      res = await vehicleController.createVehiclesTricking(data, { vehicle_id: listData.data[0].id })
+    })
+    it('should be array type for properties [data]', () => {
+      expect(Array.isArray(res)).toBe(true);
+    })
+    it('should have object key [id,created_date,updated_date]', () => {
+      expect(res[0]).toHaveProperty("id");
+      expect(res[0]).toHaveProperty("created_date");
     });
   });
   describe('[getAccessVehicle] method', () => {
@@ -96,6 +115,37 @@ describe('VehicleController Class', () => {
       } catch (error) {
         expect(error.message).toBe('Invalid Vehicle Access')
       }
+    });
+  });
+  describe('[getSearchVehicles] method', () => {
+    let res = null
+    beforeAll(async () => {
+      const listData = await vehicleController.getVehiclesList({ "page": 1, "itemPerPage": 10 })
+      const data = {
+        "vehicle_name": listData.data[0].vehicle_name,
+        "paging": {
+          "page": 1,
+          "itemPerPage": 10
+        },
+        "criteria": {
+          "start_date": "2021-01-01T00:00:00.000Z",
+          "end_date": "2021-12-28T13:28:23.831Z"
+        }
+      }
+      res = await vehicleController.getSearchVehiclesHistory(data)
+    })
+    it('should be array type for properties [data]', () => {
+      expect(Array.isArray(res.data)).toBe(true);
+    })
+    it('should not over 10 items', () => {
+      expect(res.data.length <= 10).toBe(true);
+    });
+    it('properties [total] should be number more than or equal 0', () => {
+      expect(res.total).toBeGreaterThanOrEqual(0);
+    });
+    it('should have object key [data,total]', () => {
+      expect(res).toHaveProperty("data");
+      expect(res).toHaveProperty("total");
     });
   });
 });

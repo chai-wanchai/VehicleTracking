@@ -37,7 +37,7 @@ export class VehicleController {
 	}
 	@Post('/history')
 	@HttpCode(200)
-	async getSearchVehicles(@Body() searchCriteria: SearchVehicleDto): Promise<any> {
+	async getSearchVehiclesHistory(@Body() searchCriteria: SearchVehicleDto): Promise<any> {
 		const { criteria, vehicle_name, paging } = searchCriteria
 		const result = await this.vehicleService.findHistory(vehicle_name, criteria.start_date, criteria.end_date, paging)
 		return {

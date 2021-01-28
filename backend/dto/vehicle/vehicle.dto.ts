@@ -22,7 +22,8 @@ export class TrackingVehicleDto {
 	lat: string
 	@ApiProperty()
 	long: string
-	vehicle_id: string
+	
+	vehicle_id?: string
 }
 export class VehicleDto {
 	@ApiProperty()
