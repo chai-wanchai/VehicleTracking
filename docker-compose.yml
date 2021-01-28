@@ -6,6 +6,7 @@ services:
     container_name: "vehicle-mysql"
     ports:
       - "3306:3306"
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: P@ssw0rd
       MYSQL_USER: admin
@@ -34,3 +35,5 @@ services:
     environment:
       PORT: 3000
     restart: always
+    depends_on: 
+      - vehicle-api

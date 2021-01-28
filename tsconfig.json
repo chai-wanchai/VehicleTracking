@@ -19,6 +19,6 @@
     "vehicle-back-office"
   ],
   "include": [
-    "src"
+    "backend"
   ]
 }

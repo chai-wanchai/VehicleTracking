@@ -12,13 +12,12 @@ ENV DB_TYPE=mysql
 
 ENV PORT=5000
 ENV JWT_SECRET=HTHDGSFATRHDFG
-ENV NODE_ENV=development
 
 COPY . /app
 RUN ls -l
 RUN npm install
 RUN npm run build
-CMD ["npm","run","start"]
+CMD ["npm","run","start:prod"]
 
 
 FROM node:10.23.1-alpine3.9 as verhicle-backoffice-web
@@ -26,7 +25,6 @@ RUN apk update
 RUN apk --no-cache add curl
 WORKDIR /app
 ENV PORT=3000
-ENV NODE_ENV=development
 
 COPY ./vehicle-back-office /app
 RUN ls -l

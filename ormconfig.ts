@@ -1,4 +1,4 @@
-import config from './src/shared/configuration'
+import config from './backend/shared/configuration'
 import * as dotenv from 'dotenv'
 const ENV = process.env.NODE_ENV || 'development';
 dotenv.config({ path: `config/env/.${ENV}.env` })
@@ -11,13 +11,13 @@ export = {
 	password: database.password,
 	database: database.database_name,
 	entities: [
-		'src/model/**.ts'
+		'backend/model/**.ts'
 	],
 
 	migrations: [
-		'src/migration/*.ts',
+		'backend/migration/*.ts',
 	],
 	cli: {
-		migrationsDir: 'src/migration',
+		migrationsDir: 'backend/migration',
 	}
 };
