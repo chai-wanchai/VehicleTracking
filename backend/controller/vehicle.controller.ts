@@ -9,7 +9,7 @@ import { JWTAuthGuard } from '../shared/auth.guard';
 import { PagingDto } from '../dto/commont.dto';
 @Controller('/api/vehicle')
 export class VehicleController {
-	constructor(private readonly vehicleService: VehicleService, private readonly configService: ConfigService) { }
+	constructor(private readonly vehicleService: VehicleService) { }
 
 	@Post('/list')
 	async getVehiclesList(@Body() body: PagingDto): Promise<any> {
@@ -23,7 +23,7 @@ export class VehicleController {
 	async getAccessVehicle(@Body() data: VehicleAccessDto) {
 		const result = await this.vehicleService.getAccessVehicle(data)
 		if (result) {
-			const secret = this.configService.get('JWT_SECRET');
+			const secret = process.env.JWT_SECRET;
 			const encode = jwt.sign({ vehicle_id: result.id }, secret)
 			return { token: encode }
 		} else {
