@@ -1,5 +1,5 @@
-import { VehicleEntity } from "backend/model/vehicle.entity";
-import { VehicleHistoryEntity } from "backend/model/vehicleHistory.entity";
+import { VehicleEntity } from "../model/vehicle.entity";
+import { VehicleHistoryEntity } from "../model/vehicleHistory.entity";
 
 export const entities = [
 	VehicleHistoryEntity,

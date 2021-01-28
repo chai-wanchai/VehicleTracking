@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { VehicleController } from 'backend/controller/vehicle.controller';
-import { AuthService } from 'backend/service/auth.service';
+import { VehicleController } from '../controller/vehicle.controller';
+import { AuthService } from '../service/auth.service';
 import { VehicleService } from '../service/verhicle.service';
 @Module({
 	imports: [],

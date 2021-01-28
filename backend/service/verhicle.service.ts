@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { Repository, Connection, Between } from 'typeorm';
 import { VehicleEntity } from '../model/vehicle.entity';
 import { VehicleHistoryEntity } from '../model/vehicleHistory.entity';
-import { TrackingVehicleDto, VehicleDto } from 'backend/dto/vehicle/vehicle.dto';
-import { pagingProcess } from 'backend/shared/tableFrontend';
-import { PagingDto } from 'backend/dto/commont.dto';
+import { TrackingVehicleDto, VehicleDto } from '../dto/vehicle/vehicle.dto';
+import { pagingProcess } from '../shared/tableFrontend';
+import { PagingDto } from '../dto/commont.dto';
 
 @Injectable()
 export class VehicleService {

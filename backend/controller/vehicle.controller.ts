@@ -1,14 +1,12 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Request, Post, UseGuards, HttpCode } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { SearchVehicleDto, TrackingVehicleDto, VehicleAccessDto, VehicleDto } from 'backend/dto/vehicle/vehicle.dto';
-import { VehicleEntity } from 'backend/model/vehicle.entity';
-import { VehicleHistoryEntity } from 'backend/model/vehicleHistory.entity';
-import { VehicleService } from 'backend/service/verhicle.service';
+import { SearchVehicleDto, TrackingVehicleDto, VehicleAccessDto, VehicleDto } from '../dto/vehicle/vehicle.dto';
+import { VehicleService } from '../service/verhicle.service';
 import * as jwt from 'jsonwebtoken';
-import { TokenPayload } from 'backend/decorator/user.decorator';
-import { JWTAuthGuard } from 'backend/shared/auth.guard';
-import { PagingDto } from 'backend/dto/commont.dto';
+import { TokenPayload } from '../decorator/user.decorator';
+import { JWTAuthGuard } from '../shared/auth.guard';
+import { PagingDto } from '../dto/commont.dto';
 @Controller('/api/vehicle')
 export class VehicleController {
 	constructor(private readonly vehicleService: VehicleService, private readonly configService: ConfigService) { }
