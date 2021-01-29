@@ -15,10 +15,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
     let status = HttpStatus.INTERNAL_SERVER_ERROR
     let responseData = {
       statusCode: 500,
-      timestamp: new Date().toISOString(),
       error: null,
       path: req.url
     }
+
     if (exception instanceof Error) {
       responseData.error = {
         message: exception.message,
@@ -28,9 +28,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
     if (exception instanceof HttpException) {
       status = exception.getStatus()
       responseData.statusCode = exception.getStatus()
-      const { message, error,code } = exception.getResponse() as any
+      const { message, error, code } = exception.getResponse() as any
       responseData.error = {
-        message: message,
+        message: message || exception.getResponse().toString(),
         code: code || error
       }
     }

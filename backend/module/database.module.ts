@@ -20,7 +20,7 @@ import { entities } from '../constant/entities';
           password: dbConfig.password,
           database: dbConfig.database_name,
           synchronize: true,
-          logging: log ? ['error', 'warn'] : 'all',
+          logging: false,
           entities: entities,
           retryAttempts: 20,
           retryDelay: 1000,

@@ -12,6 +12,7 @@ export class VehicleController {
 	constructor(private readonly vehicleService: VehicleService) { }
 
 	@Post('/list')
+	@HttpCode(200)
 	async getVehiclesList(@Body() body: PagingDto): Promise<any> {
 		const result = await this.vehicleService.getVehicleAll(body)
 		return {
@@ -20,6 +21,7 @@ export class VehicleController {
 		};
 	}
 	@Post('/access')
+	@HttpCode(200)
 	async getAccessVehicle(@Body() data: VehicleAccessDto) {
 		const result = await this.vehicleService.getAccessVehicle(data)
 		if (result) {
@@ -46,6 +48,7 @@ export class VehicleController {
 		};
 	}
 	@Post('/tracking')
+	@HttpCode(200)
 	@ApiBearerAuth()
 	@UseGuards(JWTAuthGuard)
 	async createVehiclesTricking(@Body() data: TrackingVehicleDto, @TokenPayload() payload: any) {

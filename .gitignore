@@ -18,3 +18,5 @@ node_modules/
 dist
 Docker/
 package-lock.json
+
+coverage/
