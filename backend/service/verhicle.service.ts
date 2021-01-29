@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository, Connection, Between } from 'typeorm';
 import { VehicleEntity } from '../model/vehicle.entity';
 import { VehicleHistoryEntity } from '../model/vehicleHistory.entity';
-import { TrackingVehicleDto, VehicleDto } from '../dto/vehicle/vehicle.dto';
+import { TrackingVehicleDto, VehicleAccessDto, VehicleDto } from '../dto/vehicle/vehicle.dto';
 import { pagingProcess } from '../shared/tableFrontend';
 import { PagingDto } from '../dto/commont.dto';
 
@@ -14,7 +14,7 @@ export class VehicleService {
 		this.vehicleRepo = this.connection.getRepository(VehicleEntity);
 		this.vehicleHistoryRepo = this.connection.getRepository(VehicleHistoryEntity);
 	}
-	async getAccessVehicle(data) {
+	async getAccessVehicle(data: VehicleAccessDto) {
 		const result = await this.vehicleRepo.findOne({ id: data.vehicle_id, vehicle_name: data.vehicle_name })
 		return result;
 	}

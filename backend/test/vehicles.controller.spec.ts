@@ -5,7 +5,6 @@ import { createConnection, Connection } from 'typeorm';
 import * as dotenv from 'dotenv'
 import { AppConfigService } from '../shared/configuration';
 import { entities } from '../constant/entities';
-import { HttpException, HttpStatus } from '@nestjs/common';
 dotenv.config({ path: 'config/env/.test.env' })
 describe('VehicleController Class', () => {
   let connection: Connection;
@@ -25,7 +24,7 @@ describe('VehicleController Class', () => {
   describe('[registerVehicles] method', () => {
     let res = null
     beforeAll(async () => {
-      const data = { vehicle_name: `unit Test at ${new Date().toLocaleString()}` }
+      const data = { vehicle_name: `unit Test at ${new Date().getTime()}` }
       res = await vehicleController.registerVehicles(data)
     })
     it('should be array type', () => {
@@ -75,8 +74,8 @@ describe('VehicleController Class', () => {
     beforeAll(async () => {
       listData = await vehicleController.getVehiclesList({ "page": 1, "itemPerPage": 10 })
       const data = {
-        "lat": "10.6",
-        "long": "12.5"
+        "lat": (Math.random()*10).toString(),
+        "long": (Math.random()*10).toString()
       }
       res = await vehicleController.createVehiclesTricking(data, { vehicle_id: listData.data[0].id })
     })
@@ -117,7 +116,7 @@ describe('VehicleController Class', () => {
       }
     });
   });
-  describe('[getSearchVehicles] method', () => {
+  describe('[getSearchVehiclesHistory] method', () => {
     let res = null
     beforeAll(async () => {
       const listData = await vehicleController.getVehiclesList({ "page": 1, "itemPerPage": 10 })
