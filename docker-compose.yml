@@ -7,11 +7,14 @@ services:
     ports:
       - "3306:3306"
     restart: always
+    volumes:
+      - databases_mysql:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/databases-backup.sql
     environment:
       MYSQL_ROOT_PASSWORD: P@ssw0rd
       MYSQL_USER: admin
       MYSQL_PASSWORD: P@ssw0rd
-      MYSQL_DATABASE: nest
+      MYSQL_DATABASE: vehicle
   vehicle-api:
     build:  
       context: .
@@ -21,7 +24,7 @@ services:
     restart: always
     volumes:
       - ./:/app
-      # - /app/node_modules
+      - /app/node_modules
     environment:
       PORT: 5000
     depends_on: 
@@ -37,3 +40,5 @@ services:
     restart: always
     depends_on: 
       - vehicle-api
+volumes:
+  databases_mysql:

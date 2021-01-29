@@ -48,12 +48,6 @@ $ docker-compose -f docker-compose.yml up --build
 ```bash
 # unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 ##  Application 
@@ -62,11 +56,14 @@ API : http://localhost:5000
 API Document : http://localhost:5000/api-doc
 Frontend : http://localhost:3000
 
-## Support
+##  Step To Run Application With Docker
+1. run ``` docker-compose -f docker-compose.yml up --build ```
+2. Wait for docker build complete
+3. After API run complete, Use Postman to load collection in folder ``` ./postman/vehicle.postman_collection.json ```
+4. After Load Postman Collection
+  4.1 Run [Register Vehicle] Request
+  4.2 Run [Get Access And Add Tracking] Request
+5. Open http://localhost:3000 for check result of back-office web app
+ *** Note ***
+  - You can see API Specification at http://localhost:5000/api-doc
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-
-## License
-
-  Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).

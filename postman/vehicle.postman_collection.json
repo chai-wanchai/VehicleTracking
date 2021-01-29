@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "ead8f495-6af6-4e1d-879b-d37911ceca9d",
+		"name": "vehicle",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register Vehicle",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"vehicle_name\", parseInt(Math.random()*100000000000000));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"vehicle_name\":\"{{vehicle_name}}\"}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/vehicle/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"vehicle",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Access And Add Tracking",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.sendRequest({\r",
+							"    url: \"http://localhost:5000/api/vehicle/list\",\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Accept': 'application/json',\r",
+							"        'Content-Type': 'application/json'\r",
+							"    }, body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({ \"page\": 1, \"itemPerPage\": 1000 })\r",
+							"    }\r",
+							"}, function (err, response) {\r",
+							"    let resp = response.json()\r",
+							"    let random = resp.data[Math.floor(Math.random() * resp.data.length)]\r",
+							"    pm.environment.set(\"vehicle_name\", random.vehicle_name);\r",
+							"    pm.environment.set(\"vehicle_id\", random.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonObject = pm.response.json();\r",
+							"    console.log(jsonObject)\r",
+							"    pm.environment.set(\"token\", jsonObject.token);\r",
+							"    for(let i=0;i<10;i++){\r",
+							"        pm.sendRequest({\r",
+							"            url:  \"http://localhost:5000/api/vehicle/tracking\", \r",
+							"            method: 'POST',\r",
+							"            header: {\r",
+							"                'Accept': 'application/json',\r",
+							"                'Content-Type': 'application/json',\r",
+							"                'Authorization': 'Bearer '+jsonObject.token\r",
+							"            },body:{\r",
+							"                 mode: 'raw',\r",
+							"                raw: JSON.stringify({  \"lat\": String(Math.random()*10),  \"long\": String(Math.random()*10)})\r",
+							"            }\r",
+							"        }, function (err, response) {\r",
+							"            console.log(response.json());\r",
+							"        });\r",
+							"    }\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"vehicle_name\":\"{{vehicle_name}}\",\"vehicle_id\":\"{{vehicle_id}}\"}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/vehicle/access",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"vehicle",
+						"access"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
